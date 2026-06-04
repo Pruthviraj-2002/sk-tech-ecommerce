@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { productData } from "../components/Products/Products"; // Importing our mock database
-import useCartStore from "../store/cartStore";
+import useCartStore from "../context/cartStore";
 import { FiArrowLeft, FiCheck } from "react-icons/fi";
 import "./ProductDetail.css";
 

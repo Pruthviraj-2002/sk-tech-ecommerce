@@ -1,5 +1,5 @@
 import "./Products.css";
-import useCartStore from "../../store/cartStore";
+import useCartStore from "../../context/cartStore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion"; // 1. Import Framer Motion
 

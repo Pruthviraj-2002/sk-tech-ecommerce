@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import useCartStore from "../store/cartStore";
+import useCartStore from "../context/cartStore";
 import { FiCheckCircle } from "react-icons/fi";
 import "./Checkout.css";
 

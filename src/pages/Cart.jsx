@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import useCartStore from "../store/cartStore";
+import useCartStore from "../context/cartStore";
 import { FiTrash2, FiMinus, FiPlus, FiArrowLeft } from "react-icons/fi";
 import "./Cart.css";
 

@@ -3,7 +3,7 @@ import { FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
 import logoImg from "../../assets/5.png"; 
 import { Link } from "react-router-dom"; 
 // 1. Import your new store
-import useCartStore from "../../store/cartStore";
+import useCartStore from "../../context/cartStore";
 
 function Navbar() {
   // 2. Ask the store for the current cartItems array
