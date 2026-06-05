@@ -1,75 +1,73 @@
-import "./Products.css";
-import useCartStore from "../../context/cartStore";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion"; // 1. Import Framer Motion
+import { Link } from 'react-router-dom';
 
-export const productData = [
-  { id: 1, name: "Quantum Microcontroller", price: 45.00, category: "Processors", desc: "A high-performance microcontroller built for complex quantum computing tasks and rapid data processing." },
-  { id: 2, name: "Precision Servo Motor", price: 22.50, category: "Robotics", desc: "Industrial-grade servo motor with ultra-precise angular positioning, perfect for robotic arms." },
-  { id: 3, name: "Industrial Logic Board", price: 120.00, category: "Circuitry", desc: "Heavy-duty logic board designed to withstand extreme temperatures and vibrations in factory environments." },
-  { id: 4, name: "Nano Thermal Sensor", price: 18.99, category: "Sensors", desc: "Highly sensitive thermal sensor capable of detecting minute temperature changes in real-time." },
+const newArrivals = [
+  { id: 1, name: 'Precision Passive Parts', price: '$12.99', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 2, name: 'Ceramic Resistor Packs', price: '$14.99', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 3, name: 'OLED Display Arrays', price: '$24.99', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 4, name: 'Quantum LED Matrix', price: '$18.99', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
 ];
 
-// 2. Define the animation rules for the grid container
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15 // This creates the 1-by-1 staggered effect
-    }
-  }
-};
+const collections = [
+  { id: 1, name: 'Microcontrollers', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 2, name: 'Sensors & Optics', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 3, name: 'Power Modules', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+  { id: 4, name: 'Connectivity', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80' },
+];
 
-// 3. Define the animation rules for individual cards
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-};
-
-function Products() {
-  const addToCart = useCartStore((state) => state.addToCart);
-
+const Products = () => {
   return (
-    <section className="products-section">
-      <div className="products-header">
-        <span className="section-tag">TOP RATED</span>
-        <h2>Featured <span>Components</span></h2>
-        <p>Engineered for performance and reliability.</p>
-      </div>
-
-      {/* 4. Apply the container variants to the grid */}
-      <motion.div 
-        className="products-grid"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="show" // This triggers the animation only when the user scrolls down to it!
-        viewport={{ once: true, amount: 0.2 }} // Ensures it only plays once
-      >
-        {productData.map((product) => (
-          /* 5. Apply the card variants to each item */
-          <motion.div className="product-card" key={product.id} variants={cardVariants}>
-            <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div className="product-image-placeholder">
-                <span>{product.category}</span>
-              </div>
-              <div className="product-info">
-                <h3>{product.name}</h3>
-                <p className="price">${product.price.toFixed(2)}</p>
-              </div>
+    <div className="w-full bg-[#f8f6f3] pb-24">
+      {/* Matching the exact warm beige background to flow directly from the Hero */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* --- Curated Arrivals Section --- */}
+        <div className="mb-24 pt-12 border-t border-gray-300/50">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-2">Curated Arrivals</h2>
+              <p className="text-sm text-gray-500 font-light">The latest architectural components.</p>
+            </div>
+            <Link to="/shop" className="text-xs font-medium text-gray-900 hover:text-gray-500 transition-colors uppercase tracking-widest flex items-center border-b border-gray-900 pb-1">
+              View All
             </Link>
-            
-            <button 
-              className="add-cart-btn"
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
-          </motion.div>
-        ))}
-      </motion.div>
-    </section>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {newArrivals.map((item) => (
+              <Link to={`/product/${item.id}`} key={item.id} className="group block">
+                <div className="bg-white aspect-square mb-6 overflow-hidden flex items-center justify-center p-8 transition-all duration-500 group-hover:shadow-xl">
+                  <img src={item.image} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 mix-blend-multiply" />
+                </div>
+                <div className="flex justify-between items-start">
+                  <h3 className="text-sm font-medium text-gray-900 tracking-wide">{item.name}</h3>
+                  <p className="text-sm text-gray-600">{item.price}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* --- Explore by Category Section --- */}
+        <div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-serif text-gray-900">Explore by Category</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {collections.map((item) => (
+              <Link to="/shop" key={item.id} className="group flex flex-col items-center cursor-pointer">
+                <div className="w-full aspect-square mb-6 overflow-hidden bg-white flex items-center justify-center p-8 transition-all duration-500 group-hover:shadow-lg rounded-full lg:rounded-none lg:rounded-tl-3xl lg:rounded-br-3xl">
+                   <img src={item.image} alt={item.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 mix-blend-multiply" />
+                </div>
+                <h3 className="text-xs font-medium text-gray-900 uppercase tracking-widest text-center">{item.name}</h3>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
   );
-}
+};
 
 export default Products;

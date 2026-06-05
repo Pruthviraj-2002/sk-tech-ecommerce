@@ -1,20 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./pages/Home";
-import Cart from "./pages/Cart";
-import ProductDetail from "./pages/ProductDetail";
-import Checkout from "./pages/Checkout"; // 1. Import it here
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Home from './pages/Home';
+import Shop from './pages/Shop';
 
 function App() {
   return (
     <Router>
-      <div className="app-container">
-        <Navbar /> 
+      <div className="min-h-screen bg-[#f8f6f3] text-gray-900 font-sans selection:bg-gray-900 selection:text-white">
+        
+        {/* The one and only Navbar */}
+        <Navbar />
+        
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/checkout" element={<Checkout />} /> {/* 2. Add the route */}
+          <Route path="/shop" element={<Shop />} />
         </Routes>
       </div>
     </Router>

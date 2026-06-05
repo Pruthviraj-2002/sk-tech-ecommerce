@@ -1,21 +1,13 @@
-import Hero from "../components/Hero/Hero";
-import Features from "../components/Features/Features";
-import Products from "../components/Products/Products";
-import SearchSection from "../components/SearchSection/SearchSection";
-import Categories from "../components/Categories/Categories";
+import Hero from '../components/Hero/Hero';
+import Products from '../components/Products/Products';
 
-function Home() {
+const Home = () => {
   return (
-    <>
+    <main className="w-full">
       <Hero />
-      <Features />
-      <SearchSection />
-      <Categories />
       <Products />
-      
-      
-    </>
+    </main>
   );
-}
+};
 
 export default Home;
