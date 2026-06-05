@@ -1,64 +1,44 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const location = useLocation();
-
-  const isActive = (path) => {
-    return location.pathname === path 
-      ? "border-b border-gray-900 text-gray-900" 
-      : "border-b border-transparent text-gray-600 hover:text-gray-900";
-  };
-
   return (
-    <nav className="w-full bg-[#f8f6f3] sticky top-0 z-50">
-      {/* Soft warm background matching the Luxora vibe */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          
-          <div className="shrink-0 flex items-center">
-            <Link to="/" className="text-2xl font-serif text-gray-900 tracking-widest uppercase">
-              SK-Tech
-            </Link>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+      <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+        
+        {/* Logo */}
+        <div className="flex items-center gap-3">
+          <span className="text-2xl font-bold text-white tracking-tight">SK technologies
+          </span>
+        </div>
+
+        {/* Menu */}
+        <div className="hidden md:flex items-center gap-8 text-white">
+          <Link to="/" className="hover:text-blue-400 transition-colors font-medium">Home</Link>
+          <Link to="/shop" className="hover:text-blue-400 transition-colors font-medium">Shop</Link>
+          <Link to="/categories" className="hover:text-blue-400 transition-colors font-medium">Categories</Link>
+          <Link to="/resources" className="hover:text-blue-400 transition-colors font-medium">Resources</Link>
+          <Link to="/about" className="hover:text-blue-400 transition-colors font-medium">About Us</Link>
+        </div>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+          <div className="relative group">
+            <input
+              type="text"
+              placeholder="Search components..."
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full pl-10 py-2.5 w-72 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-400"
+            />
+            <span className="absolute left-4 top-3 text-gray-400">🔍</span>
           </div>
 
-          <div className="hidden md:flex space-x-8">
-            <Link to="/" className={`text-xs font-medium uppercase tracking-widest pb-1 transition-colors ${isActive('/')}`}>
-              Home
-            </Link>
-            <Link to="/shop" className={`text-xs font-medium uppercase tracking-widest pb-1 transition-colors ${isActive('/shop')}`}>
-              Shop
-            </Link>
-            <Link to="/collections" className={`text-xs font-medium uppercase tracking-widest pb-1 transition-colors ${isActive('/collections')}`}>
-              Collections
-            </Link>
-            <Link to="/about" className={`text-xs font-medium uppercase tracking-widest pb-1 transition-colors ${isActive('/about')}`}>
-              About
-            </Link>
-          </div>
+          <button className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+            👤
+          </button>
 
-          <div className="flex items-center space-x-5">
-            <button className="text-gray-900 hover:text-gray-600 transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-            
-            <button className="text-gray-900 hover:text-gray-600 transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </button>
-
-            <Link to="/cart" className="text-gray-900 hover:text-gray-600 transition-colors flex items-center relative">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-              <span className="absolute -top-1.5 -right-2 text-[9px] font-medium bg-gray-900 text-white rounded-full h-4 w-4 flex items-center justify-center">
-                0
-              </span>
-            </Link>
-          </div>
-
+          <button className="relative w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+            🛒
+            <span className="absolute -top-1 -right-1 bg-blue-500 text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
         </div>
       </div>
     </nav>

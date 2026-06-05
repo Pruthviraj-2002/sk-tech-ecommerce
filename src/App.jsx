@@ -6,11 +6,9 @@ import Shop from './pages/Shop';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#f8f6f3] text-gray-900 font-sans selection:bg-gray-900 selection:text-white">
-        
-        {/* The one and only Navbar */}
+      {/* Changed bg-[#f8f6f3] to bg-white for that clean tech look */}
+      <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-blue-600 selection:text-white">
         <Navbar />
-        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
