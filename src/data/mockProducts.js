@@ -1,56 +1,39 @@
-// src/data/mockProducts.js
-
 export const products = [
   {
     id: 1,
-    name: "STM32F401",
-    description: "ARM Cortex-M4 Microcontroller",
-    price: 12.50,
-    manufacturer: "STMicroelectronics",
-    componentType: "Microcontroller",
-    pinCount: 64,
-    voltage: "3.3V",
-    inStock: true,
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80"
+    name: "STM32F407 Microcontroller",
+    category: "Semiconductors",
+    price: 12.99,
+    image: "https://picsum.photos/id/1015/300/300",
+    badge: "Bestseller"
   },
   {
     id: 2,
-    name: "ESP32-WROOM-32",
-    description: "Wi-Fi + Bluetooth Module",
-    price: 8.99,
-    manufacturer: "Espressif",
-    componentType: "Module",
-    pinCount: 38,
-    voltage: "3.3V",
-    inStock: true,
-    rating: 4,
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80"
+    name: "USB Type-C Connector 10pcs",
+    category: "Connectors",
+    price: 4.99,
+    image: "https://picsum.photos/id/106/300/300"
   },
   {
     id: 3,
-    name: "ATmega328P",
-    description: "8-bit AVR Microcontroller",
-    price: 4.25,
-    manufacturer: "Microchip",
-    componentType: "Microcontroller",
-    pinCount: 28,
-    voltage: "5V",
-    inStock: false,
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80"
+    name: "10uF Ceramic Capacitor (100pcs)",
+    category: "Passives",
+    price: 8.99,
+    image: "https://picsum.photos/id/201/300/300"
   },
   {
     id: 4,
-    name: "NE555",
-    description: "Precision Timer",
-    price: 0.75,
-    manufacturer: "Texas Instruments",
-    componentType: "IC",
-    pinCount: 8,
-    voltage: "5V - 15V",
-    inStock: true,
-    rating: 4,
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80"
-  }
+    name: "NEMA17 Stepper Motor",
+    category: "Electromechanical",
+    price: 15.50,
+    image: "https://picsum.photos/id/180/300/300",
+    badge: "New"
+  },
+  {
+    id: 5,
+    name: "ESP32 WiFi + Bluetooth Module",
+    category: "Semiconductors",
+    price: 9.99,
+    image: "https://picsum.photos/id/237/300/300"
+  },
 ];

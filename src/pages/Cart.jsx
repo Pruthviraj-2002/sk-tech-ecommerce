@@ -1,90 +1,135 @@
 import { Link } from "react-router-dom";
-import useCartStore from "../context/cartStore";
+// Notice the .js extension here!
+import useCartStore from "../context/cartStore.js"; 
 import { FiTrash2, FiMinus, FiPlus, FiArrowLeft } from "react-icons/fi";
-import "./Cart.css";
 
 function Cart() {
-  const { cartItems, removeFromCart, updateQuantity } = useCartStore();
+  // Bulletproof Zustand state selection
+  const cartItems = useCartStore((state) => state.cartItems);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
 
   // Calculate the financial totals
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const tax = subtotal * 0.08; // Example 8% tax rate
   const total = subtotal + tax;
 
-  // Render an empty state if nothing is in the cart
+  // EMPTY STATE
   if (cartItems.length === 0) {
     return (
-      <div className="empty-cart-container">
-        <h2>Your Cart is Empty</h2>
-        <p>Looks like you haven't added any components yet.</p>
-        <Link to="/" className="continue-btn">Browse Products</Link>
+      <div className="flex flex-col items-center justify-center min-h-[70vh] pt-32 pb-20 px-6 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Your Cart is Empty</h2>
+        <p className="text-lg text-slate-500 mb-8">Looks like you haven't added any components yet.</p>
+        <Link 
+          to="/" 
+          className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-900 transition-colors duration-300"
+        >
+          Browse Products
+        </Link>
       </div>
     );
   }
 
+  // CART LAYOUT
   return (
-    <div className="cart-page">
-      <div className="cart-header">
-        <Link to="/" className="back-link">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 min-h-[70vh]">
+      
+      {/* Header */}
+      <div className="mb-10">
+        <Link 
+          to="/" 
+          className="inline-flex items-center gap-2 text-slate-500 font-semibold mb-4 transition-colors hover:text-slate-900"
+        >
           <FiArrowLeft /> Continue Shopping
         </Link>
-        <h1>Shopping Cart</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+          Shopping Cart
+        </h1>
       </div>
 
-      <div className="cart-layout">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 items-start">
+        
         {/* LEFT COLUMN: The Items List */}
-        <div className="cart-items-section">
+        <div className="flex flex-col">
           {cartItems.map((item) => (
-            <div className="cart-item" key={item.id}>
-              <div className="item-image-placeholder">
-                {item.category.substring(0, 3).toUpperCase()}
+            <div 
+              className="flex flex-col sm:flex-row items-start sm:items-center py-6 border-b border-slate-200 gap-5" 
+              key={item.id}
+            >
+              {/* Image Placeholder */}
+              <div className="w-20 h-20 bg-slate-100 rounded-xl flex items-center justify-center font-bold text-slate-400 shrink-0">
+                {item.category ? item.category.substring(0, 3).toUpperCase() : 'CMP'}
               </div>
               
-              <div className="item-details">
-                <h3>{item.name}</h3>
-                <p className="item-category">{item.category}</p>
+              {/* Details */}
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-slate-900 mb-1">{item.name}</h3>
+                <p className="text-sm text-slate-500">{item.category}</p>
               </div>
 
-              <div className="quantity-controls">
-                <button onClick={() => updateQuantity(item.id, -1)}><FiMinus /></button>
-                <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.id, 1)}><FiPlus /></button>
-              </div>
+              {/* Quantity & Price Wrapper for Mobile alignment */}
+              <div className="flex items-center w-full sm:w-auto justify-between sm:justify-end gap-6 mt-4 sm:mt-0">
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-4 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
+                  <button 
+                    className="text-slate-900 hover:text-blue-600 transition-colors flex items-center justify-center cursor-pointer"
+                    onClick={() => updateQuantity(item.id, -1)}
+                  >
+                    <FiMinus />
+                  </button>
+                  <span className="font-semibold min-w-5 text-center text-slate-900">
+                    {item.quantity}
+                  </span>
+                  <button 
+                    className="text-slate-900 hover:text-blue-600 transition-colors flex items-center justify-center cursor-pointer"
+                    onClick={() => updateQuantity(item.id, 1)}
+                  >
+                    <FiPlus />
+                  </button>
+                </div>
 
-              <div className="item-price">
-                ${(item.price * item.quantity).toFixed(2)}
-              </div>
+                {/* Price */}
+                <div className="font-bold text-lg text-slate-900 min-w-20 text-right">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </div>
 
-              <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
-                <FiTrash2 />
-              </button>
+                {/* Remove Button */}
+                <button 
+                  className="text-red-500 hover:scale-110 transition-transform p-2 flex items-center justify-center cursor-pointer" 
+                  onClick={() => removeFromCart(item.id)}
+                >
+                  <FiTrash2 className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
 
         {/* RIGHT COLUMN: The Order Summary */}
-        <div className="order-summary">
-          <h2>Order Summary</h2>
+        <div className="bg-white p-8 rounded-3xl shadow-[0_20px_40px_-10px_rgba(15,23,42,0.08)] border border-slate-100 lg:sticky lg:top-32">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Order Summary</h2>
           
-          <div className="summary-row">
+          <div className="flex justify-between mb-4 text-slate-500 font-medium">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span className="text-slate-900">${subtotal.toFixed(2)}</span>
           </div>
           
-          <div className="summary-row">
+          <div className="flex justify-between mb-4 text-slate-500 font-medium">
             <span>Estimated Tax (8%)</span>
-            <span>${tax.toFixed(2)}</span>
+            <span className="text-slate-900">${tax.toFixed(2)}</span>
           </div>
           
-          <div className="summary-row total-row">
+          <div className="flex justify-between mt-6 pt-5 border-t border-dashed border-slate-300 text-slate-900 text-xl font-extrabold">
             <span>Total</span>
             <span>${total.toFixed(2)}</span>
           </div>
 
-          {/* Replace your current button with this: */}
-<Link to="/checkout" style={{ width: '100%', display: 'block' }}>
-  <button className="checkout-btn">Proceed to Checkout</button>
-</Link>
+          <Link 
+            to="/checkout" 
+            className="block w-full text-center bg-slate-900 text-white py-4 rounded-xl text-base font-bold mt-8 transition-all duration-300 hover:bg-blue-600 hover:-translate-y-1 hover:shadow-[0_10px_20px_-5px_rgba(37,99,235,0.3)]"
+          >
+            Proceed to Checkout
+          </Link>
         </div>
       </div>
     </div>
