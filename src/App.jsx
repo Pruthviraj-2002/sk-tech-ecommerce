@@ -11,6 +11,7 @@ import AboutUs from './pages/AboutUs.jsx';
 import Cart from './pages/Cart.jsx';
 import Checkout from './pages/Checkout.jsx';
 import ProductDetail from './pages/ProductDetail.jsx';
+import Login from './pages/Login.jsx';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/product/:id" element={<ProductDetail />} />
