@@ -1,11 +1,25 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // We added this!
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useCartStore from '../context/cartStore.js';
 
 const Shop = () => {
   const addToCart = useCartStore((state) => state.addToCart);
+  
+  // State to track which specific product button was just clicked
+  const [addingId, setAddingId] = useState(null);
 
-  // Mock data with proper IDs
+  // Custom handler to run the animation timer alongside the Zustand store update
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setAddingId(product.id);
+    
+    // Reset the button back to its normal state after 1.5 seconds
+    setTimeout(() => {
+      setAddingId(null);
+    }, 1500);
+  };
+
+  // Mock data
   const mockProducts = [
     { id: 1, name: "STM32F401", category: "Microcontroller", desc: "ARM Cortex-M4 Microcontroller", price: 12.50, outOfStock: true, image: "https://picsum.photos/id/0/400/300" },
     { id: 2, name: "ESP32-WROOM-32", category: "Module", desc: "Wi-Fi + Bluetooth Module", price: 8.99, outOfStock: true, image: "https://picsum.photos/id/1/400/300" },
@@ -76,7 +90,7 @@ const Shop = () => {
               {mockProducts.map((product) => (
                 <div key={product.id} className="group relative flex flex-col bg-white">
                   
-                  {/* Clickable Image -> Routes to Product Detail */}
+                  {/* Clickable Image */}
                   <Link to={`/product/${product.id}`} className="relative aspect-4/3 overflow-hidden bg-gray-100 mb-4 border border-gray-200 block cursor-pointer">
                     <img 
                       src={product.image} 
@@ -92,7 +106,6 @@ const Shop = () => {
                   
                   {/* Product Details */}
                   <div className="flex-1">
-                    {/* Clickable Title -> Routes to Product Detail */}
                     <Link to={`/product/${product.id}`}>
                       <h3 className="text-lg font-bold text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">
                         {product.name}
@@ -101,14 +114,19 @@ const Shop = () => {
                     <p className="text-sm text-gray-500 mb-4">{product.desc}</p>
                   </div>
                   
-                  {/* Price & Add Button (Stays functional without routing away) */}
+                  {/* Price & Animated Add Button */}
                   <div className="flex items-center justify-between mt-auto pt-4">
                     <span className="text-xl font-black text-gray-900">${product.price.toFixed(2)}</span>
                     <button 
-                      onClick={() => addToCart(product)}
-                      className="bg-gray-900 hover:bg-blue-600 text-white text-xs font-bold px-6 py-2 uppercase tracking-wider transition-colors duration-200 rounded-sm cursor-pointer"
+                      onClick={() => handleAddToCart(product)}
+                      disabled={addingId === product.id}
+                      className={`text-xs font-bold px-6 py-2 uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
+                        addingId === product.id 
+                          ? 'bg-emerald-500 text-white scale-105 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)]' 
+                          : 'bg-gray-900 hover:bg-blue-600 text-white hover:-translate-y-0.5 hover:shadow-md'
+                      }`}
                     >
-                      Add
+                      {addingId === product.id ? 'Added ✓' : 'Add'}
                     </button>
                   </div>
 
