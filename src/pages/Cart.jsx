@@ -9,10 +9,28 @@ function Cart() {
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
-  // Calculate the financial totals
+  // --- LOCALIZATION & FORMATTING ---
+  // Formats numbers to Indian Rupees with proper comma placement (e.g., ₹1,00,000.00)
+  const formatINR = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 2,
+    }).format(amount);
+  };
+
+  // --- E-COMMERCE MATH ---
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.08; // Example 8% tax rate
-  const total = subtotal + tax;
+  
+  // Standard Indian GST for electronics/components is usually 18%
+  const GST_RATE = 0.18; 
+  const estimatedGST = subtotal * GST_RATE;
+
+  // Delivery Logic: Free shipping over ₹499, otherwise ₹50
+  const FREE_SHIPPING_THRESHOLD = 499;
+  const deliveryFee = subtotal === 0 ? 0 : (subtotal > FREE_SHIPPING_THRESHOLD ? 0 : 50);
+
+  const total = subtotal + estimatedGST + deliveryFee;
 
   // EMPTY STATE
   if (cartItems.length === 0) {
@@ -89,8 +107,8 @@ function Cart() {
                 </div>
 
                 {/* Price */}
-                <div className="font-bold text-lg text-slate-900 min-w-20 text-right">
-                  ${(item.price * item.quantity).toFixed(2)}
+                <div className="font-bold text-lg text-slate-900 min-w-28 text-right">
+                  {formatINR(item.price * item.quantity)}
                 </div>
 
                 {/* Remove Button */}
@@ -111,17 +129,39 @@ function Cart() {
           
           <div className="flex justify-between mb-4 text-slate-500 font-medium">
             <span>Subtotal</span>
-            <span className="text-slate-900">${subtotal.toFixed(2)}</span>
+            <span className="text-slate-900">{formatINR(subtotal)}</span>
           </div>
           
           <div className="flex justify-between mb-4 text-slate-500 font-medium">
-            <span>Estimated Tax (8%)</span>
-            <span className="text-slate-900">${tax.toFixed(2)}</span>
+            <span>Estimated GST (18%)</span>
+            <span className="text-slate-900">{formatINR(estimatedGST)}</span>
           </div>
+
+          <div className="flex justify-between mb-4 text-slate-500 font-medium">
+            <span>Delivery Fee</span>
+            <span className={deliveryFee === 0 ? "text-green-600 font-bold" : "text-slate-900"}>
+              {deliveryFee === 0 ? "Free" : formatINR(deliveryFee)}
+            </span>
+          </div>
+          
+          {/* Progress bar to free shipping if they haven't hit it */}
+          {deliveryFee > 0 && (
+            <div className="mb-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+              <p className="text-sm text-slate-600 mb-2">
+                Add <span className="font-bold text-slate-900">{formatINR(FREE_SHIPPING_THRESHOLD - subtotal)}</span> more to your cart for <span className="font-bold text-green-600">FREE delivery</span>!
+              </p>
+              <div className="w-full bg-slate-200 rounded-full h-2">
+                <div 
+                  className="bg-blue-600 h-2 rounded-full transition-all duration-500" 
+                  style={{ width: `${(subtotal / FREE_SHIPPING_THRESHOLD) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
           
           <div className="flex justify-between mt-6 pt-5 border-t border-dashed border-slate-300 text-slate-900 text-xl font-extrabold">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatINR(total)}</span>
           </div>
 
           <Link 
